@@ -3,6 +3,7 @@ import java.util.List;
 
 public class BancoDados {
 
+    // SINGLETON (GoF): só existe uma instância de BancoDados no programa.
     private static BancoDados instancia;
 
     private final ArrayList<Cliente> clientes;
@@ -10,7 +11,10 @@ public class BancoDados {
     private final ArrayList<Funcionario> funcionarios;
     private final ArrayList<DadosObserver> observers;
 
-    private int proximoId;
+    // Um contador de ID para cada cadastro (Cliente 1, Pet 1, Funcionário 1...)
+    private int proximoIdCliente;
+    private int proximoIdPet;
+    private int proximoIdFuncionario;
 
     private BancoDados() {
         clientes = new ArrayList<>();
@@ -18,7 +22,9 @@ public class BancoDados {
         pets = new ArrayList<>();
         observers = new ArrayList<>();
 
-        proximoId = 1;
+        proximoIdCliente = 1;
+        proximoIdPet = 1;
+        proximoIdFuncionario = 1;
     }
 
     public static BancoDados getInstancia() {
@@ -34,28 +40,18 @@ public class BancoDados {
 // CLIENTE
 
 
-    public Cliente cadastrarCliente(
-            String nome,
-            String telefone,
-            String email
-    ) {
+    // CREATOR (GRASP): BancoDados guarda os clientes, então é ele quem os cria.
+    public Cliente cadastrarCliente(String nome, String telefone, String email) {
 
-        Cliente cliente = new Cliente(
-                proximoId,
-                nome,
-                telefone,
-                email
-        );
+        Cliente cliente = new Cliente(proximoIdCliente, nome, telefone, email);
 
         clientes.add(cliente);
+        proximoIdCliente++;
 
-        proximoId++;
-
-        notificarObservers();
+        notificarObservers("Cliente", "cadastrado");
 
         return cliente;
     }
-
 
     public List<Cliente> listarClientes() {
 
@@ -76,13 +72,7 @@ public class BancoDados {
         return null;
     }
 
-
-    public boolean atualizarCliente(
-            int id,
-            String nome,
-            String telefone,
-            String email
-    ) {
+    public boolean atualizarCliente(int id, String nome, String telefone, String email) {
 
         Cliente cliente = buscarCliente(id);
 
@@ -90,15 +80,12 @@ public class BancoDados {
             return false;
         }
 
-        cliente.setNome(nome);
-        cliente.setTelefone(telefone);
-        cliente.setEmail(email);
+        cliente.atualizar(nome, telefone, email);
 
-        notificarObservers();
+        notificarObservers("Cliente", "atualizado");
 
         return true;
     }
-
 
     public boolean excluirCliente(int id) {
 
@@ -108,9 +95,19 @@ public class BancoDados {
             return false;
         }
 
+        // Regra de integridade: não deixa pets "órfãos" sem dono.
+        for (Pet pet : pets) {
+
+            if (pet.getDonoId() == id) {
+                throw new IllegalStateException(
+                        "Este cliente possui pets cadastrados. Exclua os pets primeiro."
+                );
+            }
+        }
+
         clientes.remove(cliente);
 
-        notificarObservers();
+        notificarObservers("Cliente", "excluído");
 
         return true;
     }
@@ -119,31 +116,17 @@ public class BancoDados {
 // PET
 
 
-    public Pet cadastrarPet(
-            String nome,
-            String especie,
-            String raca,
-            int idade
-    ) {
+    public Pet cadastrarPet(int donoId, String nome, String especie, String raca, int idade) {
 
-        Pet pet = new Pet(
-                proximoId,
-                nome,
-                especie,
-                raca,
-                idade
-        );
+        Pet pet = new Pet(proximoIdPet, donoId, nome, especie, raca, idade);
 
         pets.add(pet);
+        proximoIdPet++;
 
-        proximoId++;
-
-        notificarObservers();
+        notificarObservers("Pet", "cadastrado");
 
         return pet;
     }
-
-
 
     public List<Pet> listarPets() {
 
@@ -162,15 +145,7 @@ public class BancoDados {
         return null;
     }
 
-
-
-    public boolean atualizarPet(
-            int id,
-            String nome,
-            String especie,
-            String raca,
-            int idade
-    ) {
+    public boolean atualizarPet(int id, String nome, String especie, String raca, int idade) {
 
         Pet pet = buscarPet(id);
 
@@ -178,17 +153,12 @@ public class BancoDados {
             return false;
         }
 
-        pet.setNome(nome);
-        pet.setEspecie(especie);
-        pet.setRaca(raca);
-        pet.setIdade(idade);
+        pet.atualizar(nome, especie, raca, idade);
 
-        notificarObservers();
+        notificarObservers("Pet", "atualizado");
 
         return true;
     }
-
-
 
     public boolean excluirPet(int id) {
 
@@ -200,34 +170,26 @@ public class BancoDados {
 
         pets.remove(pet);
 
-        notificarObservers();
+        notificarObservers("Pet", "excluído");
 
         return true;
     }
 
 
-    // FUNCIONARIO
+// FUNCIONARIO
 
 
     public Funcionario cadastrarFuncionario(String nome, String cargo, String telefone, String email) {
 
-        Funcionario funcionario = new Funcionario(
-                proximoId,
-                nome,
-                cargo,
-                telefone,
-                email
-        );
+        Funcionario funcionario = new Funcionario(proximoIdFuncionario, nome, cargo, telefone, email);
 
         funcionarios.add(funcionario);
-        proximoId++;
+        proximoIdFuncionario++;
 
-        notificarObservers();
+        notificarObservers("Funcionário", "cadastrado");
 
         return funcionario;
     }
-
-
 
     public List<Funcionario> listarFuncionarios() {
         return new ArrayList<>(funcionarios);
@@ -244,14 +206,7 @@ public class BancoDados {
         return null;
     }
 
-
-
-    public boolean atualizarFuncionario(
-            int id,
-            String nome,
-            String cargo,
-            String telefone,
-            String email) {
+    public boolean atualizarFuncionario(int id, String nome, String cargo, String telefone, String email) {
 
         Funcionario funcionario = buscarFuncionario(id);
 
@@ -259,17 +214,12 @@ public class BancoDados {
             return false;
         }
 
-        funcionario.setNome(nome);
-        funcionario.setCargo(cargo);
-        funcionario.setTelefone(telefone);
-        funcionario.setEmail(email);
+        funcionario.atualizar(nome, cargo, telefone, email);
 
-        notificarObservers();
+        notificarObservers("Funcionário", "atualizado");
 
         return true;
     }
-
-
 
     public boolean excluirFuncionario(int id) {
 
@@ -281,13 +231,14 @@ public class BancoDados {
 
         funcionarios.remove(funcionario);
 
-        notificarObservers();
+        notificarObservers("Funcionário", "excluído");
 
         return true;
     }
 
 
-    //OBSERVER
+// OBSERVER (GoF): BancoDados é o "observado". Quem quiser ser avisado
+// das mudanças se registra aqui (o Main registra o DadosMonitor).
 
 
     public void adicionarObserver(DadosObserver observer) {
@@ -301,10 +252,10 @@ public class BancoDados {
         observers.remove(observer);
     }
 
-    private void notificarObservers() {
+    private void notificarObservers(String entidade, String acao) {
 
         for (DadosObserver observer : observers) {
-            observer.dadosAlterados();
+            observer.dadosAlterados(entidade, acao);
         }
     }
 }
