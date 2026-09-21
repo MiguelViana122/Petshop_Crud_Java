@@ -1,7 +1,11 @@
 # Petshop — Sistema de Cadastro (console)
 
 Disciplina: Projeto e Arquitetura de Sistemas — UNIFOR (Prof. Américo Sampaio)
-Equipe: **[NOME DA EQUIPE]** — [Integrante 1], [Integrante 2], [Integrante 3]
+
+Equipe: 
+João Miguel Viana Silva (2410555)
+Pedro Átila Gomes Câmara (2516271)
+Natan Wendel do Nascimento Lopes (2510510)
 
 ## Como executar
 
