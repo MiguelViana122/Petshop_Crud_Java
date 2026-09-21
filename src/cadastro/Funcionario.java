@@ -1,3 +1,4 @@
+package cadastro;
 public class Funcionario {
 
     private final int id;
@@ -11,16 +12,15 @@ public class Funcionario {
         atualizar(nome, cargo, telefone, email);
     }
 
-    // Information Expert: o próprio Funcionario sabe quais dados são válidos.
-    // Valida tudo ANTES de alterar, para nunca ficar meio atualizado.
+
     public void atualizar(String nome, String cargo, String telefone, String email) {
 
-        if (nome == null || nome.trim().isEmpty()) {
-            throw new IllegalArgumentException("O nome não pode ficar vazio.");
+        if (nome == null || !nome.trim().matches("^[a-zA-ZÀ-ÿ\\s]+$")) {
+            throw new IllegalArgumentException("O nome não pode ficar vazio e deve conter apenas letras.");
         }
 
-        if (cargo == null || cargo.trim().isEmpty()) {
-            throw new IllegalArgumentException("O cargo não pode ficar vazio.");
+        if (cargo == null || !cargo.trim().matches("^[a-zA-ZÀ-ÿ\\s]+$")) {
+            throw new IllegalArgumentException("O cargo não pode ficar vazio e deve conter apenas letras.");
         }
 
         if (telefone == null || telefone.replaceAll("\\D", "").length() < 8) {
@@ -57,14 +57,5 @@ public class Funcionario {
         return email;
     }
 
-    @Override
-    public String toString() {
-        return "Funcionario{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", cargo='" + cargo + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
+
 }

@@ -1,3 +1,4 @@
+package cadastro;
 public class Pet {
 
     private final int id;
@@ -13,20 +14,19 @@ public class Pet {
         atualizar(nome, especie, raca, idade);
     }
 
-    // Information Expert: o próprio Pet sabe quais dados são válidos.
-    // Valida tudo ANTES de alterar, para nunca ficar meio atualizado.
+
     public void atualizar(String nome, String especie, String raca, int idade) {
 
         if (nome == null || nome.trim().isEmpty()) {
             throw new IllegalArgumentException("O nome não pode ficar vazio.");
         }
 
-        if (especie == null || especie.trim().isEmpty()) {
-            throw new IllegalArgumentException("A espécie não pode ficar vazia.");
+        if (especie == null || !especie.trim().matches("^[a-zA-ZÀ-ÿ\\s]+$")) {
+            throw new IllegalArgumentException("A espécie não pode ficar vazia e deve conter apenas letras.");
         }
 
-        if (raca == null || raca.trim().isEmpty()) {
-            throw new IllegalArgumentException("A raça não pode ficar vazia.");
+        if (raca == null || !raca.trim().matches("^[a-zA-ZÀ-ÿ\\s]+$")) {
+            throw new IllegalArgumentException("A raça não pode ficar vazia e deve conter apenas letras.");
         }
 
         if (idade < 0 || idade > 100) {
@@ -63,15 +63,5 @@ public class Pet {
         return idade;
     }
 
-    @Override
-    public String toString() {
-        return "Pet{" +
-                "id=" + id +
-                ", donoId=" + donoId +
-                ", nome='" + nome + '\'' +
-                ", especie='" + especie + '\'' +
-                ", raca='" + raca + '\'' +
-                ", idade=" + idade +
-                '}';
-    }
+
 }

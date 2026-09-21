@@ -1,7 +1,5 @@
+package cadastro;
 import java.util.List;
-
-// CONTROLLER (GRASP): recebe os pedidos da tela e repassa ao BancoDados.
-// As regras de validação ficam na própria entidade (Information Expert).
 public class ClienteController {
 
     private final BancoDados bancoDados;

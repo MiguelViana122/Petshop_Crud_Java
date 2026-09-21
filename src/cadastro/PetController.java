@@ -1,8 +1,6 @@
+package cadastro;
 import java.util.List;
 
-// CONTROLLER (GRASP): recebe os pedidos da tela e repassa ao BancoDados.
-// As regras de validação ficam na própria entidade (Information Expert).
-// Aqui fica só a regra que envolve DUAS entidades: o dono do pet precisa existir.
 public class PetController {
 
     private final BancoDados bancoDados;

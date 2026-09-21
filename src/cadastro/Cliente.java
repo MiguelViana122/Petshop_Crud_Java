@@ -1,3 +1,4 @@
+package cadastro;
 public class Cliente {
 
     private final int id;
@@ -10,12 +11,11 @@ public class Cliente {
         atualizar(nome, telefone, email);
     }
 
-    // Information Expert: o próprio Cliente sabe quais dados são válidos.
-    // Valida tudo ANTES de alterar, para nunca ficar meio atualizado.
+
     public void atualizar(String nome, String telefone, String email) {
 
-        if (nome == null || nome.trim().isEmpty()) {
-            throw new IllegalArgumentException("O nome não pode ficar vazio.");
+        if (nome == null || !nome.trim().matches("^[a-zA-ZÀ-ÿ\\s]+$")) {
+            throw new IllegalArgumentException("O nome não pode ficar vazio e deve conter apenas letras.");
         }
 
         if (telefone == null || telefone.replaceAll("\\D", "").length() < 8) {
@@ -47,13 +47,5 @@ public class Cliente {
         return email;
     }
 
-    @Override
-    public String toString() {
-        return "Cliente{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", telefone='" + telefone + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
+
 }

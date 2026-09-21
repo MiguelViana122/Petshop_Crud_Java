@@ -1,5 +1,7 @@
+package cadastro;
 import java.util.List;
 import java.util.Scanner;
+
 
 public class Main {
 
@@ -11,7 +13,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // OBSERVER (GoF): registra o monitor para ser avisado a cada mudança nos dados.
         BancoDados.getInstancia().adicionarObserver(new DadosMonitor());
 
         int opcao;
@@ -74,9 +75,6 @@ public class Main {
     }
 
 
-    // ---------- Leitura segura do teclado ----------
-
-    // Repete a pergunta até o usuário digitar um número inteiro (não quebra com letras).
     private static int lerInt(String mensagem) {
 
         while (true) {
@@ -98,7 +96,7 @@ public class Main {
         return scanner.nextLine();
     }
 
-    // Na atualização: Enter em branco mantém o valor atual (não precisa redigitar).
+
     private static String lerOuManter(String rotulo, String atual) {
 
         String digitado = lerTexto(rotulo + " [" + atual + "]: ");
@@ -126,7 +124,7 @@ public class Main {
     }
 
 
-    // ---------- Formatação ----------
+
 
     private static String descrever(Cliente c) {
 

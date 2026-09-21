@@ -1,9 +1,9 @@
+package cadastro;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BancoDados {
 
-    // SINGLETON (GoF): só existe uma instância de BancoDados no programa.
     private static BancoDados instancia;
 
     private final ArrayList<Cliente> clientes;
@@ -11,7 +11,6 @@ public class BancoDados {
     private final ArrayList<Funcionario> funcionarios;
     private final ArrayList<DadosObserver> observers;
 
-    // Um contador de ID para cada cadastro (Cliente 1, Pet 1, Funcionário 1...)
     private int proximoIdCliente;
     private int proximoIdPet;
     private int proximoIdFuncionario;
@@ -40,7 +39,6 @@ public class BancoDados {
 // CLIENTE
 
 
-    // CREATOR (GRASP): BancoDados guarda os clientes, então é ele quem os cria.
     public Cliente cadastrarCliente(String nome, String telefone, String email) {
 
         Cliente cliente = new Cliente(proximoIdCliente, nome, telefone, email);
@@ -54,9 +52,6 @@ public class BancoDados {
     }
 
     public List<Cliente> listarClientes() {
-
-        // Retorna uma cópia da lista para evitar
-        // alterações externas diretamente na lista original.
         return new ArrayList<>(clientes);
     }
 
@@ -95,7 +90,6 @@ public class BancoDados {
             return false;
         }
 
-        // Regra de integridade: não deixa pets "órfãos" sem dono.
         for (Pet pet : pets) {
 
             if (pet.getDonoId() == id) {
@@ -129,7 +123,6 @@ public class BancoDados {
     }
 
     public List<Pet> listarPets() {
-
         return new ArrayList<>(pets);
     }
 
@@ -236,9 +229,6 @@ public class BancoDados {
         return true;
     }
 
-
-// OBSERVER (GoF): BancoDados é o "observado". Quem quiser ser avisado
-// das mudanças se registra aqui (o Main registra o DadosMonitor).
 
 
     public void adicionarObserver(DadosObserver observer) {
