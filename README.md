@@ -2,7 +2,10 @@
 
 Disciplina: Projeto e Arquitetura de Sistemas — UNIFOR (Prof. Américo Sampaio)
 
-Equipe:João Miguel Viana Silva (2410555) Pedro Átila Gomes Câmara (2516271) Natan Wendel do Nascimento Lopes (2510510)
+Equipe:
+João Miguel Viana Silva (2410555)
+Pedro Átila Gomes Câmara (2516271)
+Natan Wendel do Nascimento Lopes (2510510)
 
 ## Como executar
 
@@ -39,11 +42,10 @@ Regras do sistema:
 
 Aplicação por cadastro: os dois GoF e os três GRASP valem para Cliente, Pet e Funcionário (o Observer avisa uma mensagem própria para cada um).
 
-### Explicação dos Padrões
+### Explicação dos padrões
 
 - **Singleton:** só existe um `BancoDados`. Se cada controller criasse o seu, cada um teria listas diferentes.
 - **Observer:** o `BancoDados` avisa quem estiver "ouvindo" sempre que algo muda. O `DadosMonitor` ouve e imprime `[Observer] Pet cadastrado.`
 - **Controller:** a tela (`Main`) fala com os controllers, não com a lista de dados diretamente.
 - **Information Expert:** quem tem os dados sabe se eles são válidos, então a validação está na própria entidade.
 - **Creator:** quem guarda os objetos é quem os cria.
-
