@@ -1,7 +1,8 @@
 # Petshop — Sistema de Cadastro (console)
 
 Disciplina: Projeto e Arquitetura de Sistemas — UNIFOR (Prof. Américo Sampaio)
-Equipe: **[NOME DA EQUIPE]** — [Integrante 1], [Integrante 2], [Integrante 3]
+
+Equipe:João Miguel Viana Silva (2410555) Pedro Átila Gomes Câmara (2516271) Natan Wendel do Nascimento Lopes (2510510)
 
 ## Como executar
 
@@ -38,7 +39,7 @@ Regras do sistema:
 
 Aplicação por cadastro: os dois GoF e os três GRASP valem para Cliente, Pet e Funcionário (o Observer avisa uma mensagem própria para cada um).
 
-### Explicação simples (para a apresentação)
+### Explicação dos Padrões
 
 - **Singleton:** só existe um `BancoDados`. Se cada controller criasse o seu, cada um teria listas diferentes.
 - **Observer:** o `BancoDados` avisa quem estiver "ouvindo" sempre que algo muda. O `DadosMonitor` ouve e imprime `[Observer] Pet cadastrado.`
@@ -46,13 +47,3 @@ Aplicação por cadastro: os dois GoF e os três GRASP valem para Cliente, Pet e
 - **Information Expert:** quem tem os dados sabe se eles são válidos, então a validação está na própria entidade.
 - **Creator:** quem guarda os objetos é quem os cria.
 
-### Limitações conhecidas (para responder com honestidade)
-
-- `BancoDados` concentra os três cadastros; separar em repositórios seria a evolução natural.
-- O `Main` mistura interface e fluxo do menu.
-- O `Main` registra o observer, então toca o `BancoDados` uma vez.
-- Sem persistência em arquivo ou banco.
-
-## Prints das telas
-
-Pasta `prints/` — [ADICIONAR AQUI].
